@@ -1,75 +1,83 @@
-# React + TypeScript + Vite
+# Tazi's Market — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tazi's Market es una tienda de videojuegos retro con la energía de un mercado clandestino y productos legales: cartuchos, consolas y hallazgos de colección. Este frontend forma parte de un proyecto full stack; el backend vive en un repositorio separado: [link al repo del backend].
 
-Currently, two official plugins are available:
+## Stack Tecnológico
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- React Router
+- Axios
+- Context API
 
-## React Compiler
+## Características
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Explora un catálogo de consolas y juegos retro con búsqueda y filtros por categoría, precio y rareza.
+- Consulta detalles, disponibilidad y precio de cada producto.
+- Crea una cuenta e inicia sesión para hacer pedidos.
+- Guarda productos en el carrito y ajusta las cantidades según el stock disponible.
+- Finaliza compras y consulta el historial de pedidos; los pedidos pendientes se pueden cancelar.
+- Accede, con una cuenta administradora, a paneles para gestionar productos y categorías.
+- Usa la tienda desde pantallas grandes o dispositivos móviles.
 
-## Expanding the ESLint configuration
+## Diseño
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+La dirección visual combina la energía gráfica de Persona 5 con una estética de catálogo retro de mercado negro: fondos oscuros, cortes diagonales y acentos de alto contraste. La paleta usa Void `#0A0A0A`, Alarm `#E11D2E`, Blood `#7A1220`, Bone `#EDEAE2`, Contraband `#C9A227` y Shadow `#161616`. Los títulos usan Anton y el texto de interfaz usa Space Grotesk.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Instalación y uso local
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Clona el repositorio y entra en la carpeta del frontend:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   git clone <URL_DEL_REPOSITORIO_FRONTEND>
+   cd <CARPETA_DEL_REPOSITORIO>/frontend
+   ```
 
+2. Instala las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+3. Crea un archivo `.env` en la raíz de `frontend/` y configura la URL base del backend:
+
+   ```env
+   VITE_API_URL=http://localhost:3001
+   ```
+
+   Si no defines esta variable, la aplicación usa `http://localhost:3001` como fallback.
+
+4. Inicia el servidor de desarrollo:
+
+   ```bash
+   npm run dev
+   ```
+
+El frontend requiere que el backend esté corriendo en paralelo para cargar el catálogo, autenticar usuarios y procesar pedidos.
+
+## Estructura del proyecto
+
+```text
+src/
+├── components/  Componentes de interfaz reutilizables, navegación y rutas protegidas.
+├── pages/       Páginas del catálogo, cuenta, carrito, pedidos y administración.
+├── context/     Estado compartido de autenticación y carrito.
+├── lib/         Configuración de Axios y acceso a la API.
+└── types/       Interfaces TypeScript compartidas.
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Decisiones técnicas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Context API para estado global
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+El estado compartido se limita principalmente a la sesión y al carrito, por lo que Context API cubre las necesidades actuales sin añadir una librería externa. Esto mantiene el flujo de datos sencillo y evita incorporar más infraestructura de estado de la necesaria para el tamaño del proyecto.
 
-```
+### Carrito en el frontend y localStorage
+
+Guardar el carrito en el navegador permite conservarlo al recargar la página y mantener la experiencia de compra mientras el usuario aún no inicia sesión. Al crear la orden, el backend vuelve a validar productos y stock y registra los precios de compra.
+
+### Protección de rutas administrativas
+
+`ProtectedRoute` concentra la comprobación de sesión y rol antes de renderizar las rutas administrativas. Así, las páginas comparten la misma regla de acceso en lugar de repetirla; las operaciones administrativas también están protegidas por el backend.
