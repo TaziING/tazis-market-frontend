@@ -1,6 +1,6 @@
 # Tazi's Market — Frontend
 
-Tazi's Market es una tienda de videojuegos retro con la energía de un mercado clandestino y productos legales: cartuchos, consolas y hallazgos de colección. Este frontend forma parte de un proyecto full stack; el backend vive en un repositorio separado: [link al repo del backend].
+Tazi's Market es una tienda de videojuegos retro con la energía de un mercado clandestino y productos legales: cartuchos, consolas y hallazgos de colección. Este frontend forma parte de un proyecto full stack; el backend vive en un repositorio separado: [https://github.com/TaziING/tazis-market-backend].
 
 ## Stack Tecnológico
 
@@ -31,7 +31,7 @@ La dirección visual combina la energía gráfica de Persona 5 con una estética
 1. Clona el repositorio y entra en la carpeta del frontend:
 
    ```bash
-   git clone <URL_DEL_REPOSITORIO_FRONTEND>
+   git clone (https://github.com/TaziING/tazis-market-frontend.git)
    cd <CARPETA_DEL_REPOSITORIO>/frontend
    ```
 
