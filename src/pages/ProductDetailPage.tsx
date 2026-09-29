@@ -109,9 +109,9 @@ function ProductDetailPage() {
 
       {!loading && !error && product && (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div>
+          <div className="h-96 overflow-hidden bg-shadow md:h-[500px]">
             {imgError ? (
-              <div className="flex h-96 w-full items-center justify-center bg-shadow text-sm text-blood">
+              <div className="flex h-full w-full items-center justify-center text-sm text-blood">
                 Sin imagen
               </div>
             ) : (
@@ -122,7 +122,7 @@ function ProductDetailPage() {
                   event.currentTarget.src = fallbackImage;
                   setImgError(true);
                 }}
-                className="h-96 w-full object-cover"
+                className="h-full w-full object-contain"
               />
             )}
           </div>
